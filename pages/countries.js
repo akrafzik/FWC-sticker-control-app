@@ -1,16 +1,21 @@
 import Layout from "../components/layout";
 import Link from "next/link";
+import Card from "../components/card";
 
 export default function Page({ countries }) {
   return (
     <div>
-      <h1>Countries</h1>
+      <h1 className="text-lg font-medium text-text">Countries</h1>
       <nav>
-        <ul>
+        <ul className="flex flex-wrap mt-5">
           {countries.map((country) => {
             return (
-              <li>
-                <Link href={getLink(country)}><div>{country}</div></Link>
+              <li className="mr-2 mt-2">
+                <Link href={getLink(country.name)}>
+                  <div className="container">
+                    <Card data={{...country, type: 'country'}}/>
+                  </div>
+                </Link>
               </li>
             );
           })}
@@ -27,9 +32,87 @@ Page.getLayout = function getLayout(page) {
 export async function getServerSideProps(context) {
   return {
     props: {
-      countries: ["Brasil", "Alemanha"],
+      countries: [
+        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
+        {
+          title: "Germany",
+          identifier: "GER",
+          completed: false,
+          remaining: 10,
+        },
+        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
+        {
+          title: "Germany",
+          identifier: "GER",
+          completed: false,
+          remaining: 10,
+        },
+        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
+        {
+          title: "Germany",
+          identifier: "GER",
+          completed: false,
+          remaining: 10,
+        },
+        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
+        {
+          title: "Germany",
+          identifier: "GER",
+          completed: false,
+          remaining: 10,
+        },
+        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
+        {
+          title: "Germany",
+          identifier: "GER",
+          completed: false,
+          remaining: 10,
+        },
+        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
+        {
+          title: "Germany",
+          identifier: "GER",
+          completed: false,
+          remaining: 10,
+        },
+        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
+        {
+          title: "Germany",
+          identifier: "GER",
+          completed: false,
+          remaining: 10,
+        },
+        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
+        {
+          title: "Germany",
+          identifier: "GER",
+          completed: false,
+          remaining: 10,
+        },
+        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
+        {
+          title: "Germany",
+          identifier: "GER",
+          completed: false,
+          remaining: 10,
+        },
+        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
+        {
+          title: "Germany",
+          identifier: "GER",
+          completed: false,
+          remaining: 10,
+        },
+        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
+        {
+          title: "Germany",
+          identifier: "GER",
+          completed: false,
+          remaining: 10,
+        }
+      ],
     }, // will be passed to the page component as props
   };
 }
 
-const getLink = (country) => (`/countries/${country}`)
+const getLink = (name) => `/countries/${String(name).toLowerCase()}`;
