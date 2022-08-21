@@ -9,6 +9,10 @@ function Page({ country, stickers }) {
           <Link href="/countries">Countries</Link>&nbsp;/&nbsp;
           {String(country).toUpperCase()}
         </h1>
+        <div>
+          <button className='mr-2'>Apply</button>
+          <button className='mr-2'>Cancel</button>
+        </div>
       </div>
       <nav>
         <ul className="flex flex-wrap mt-5">

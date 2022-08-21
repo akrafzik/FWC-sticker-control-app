@@ -23,7 +23,10 @@ div.title {
   background-color: #dedede;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   border-radius: 10px;
-  padding: 10px;
+  padding: 1em;
   display: flex;
   justify-content: space-between;
+  justify-items: center;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
