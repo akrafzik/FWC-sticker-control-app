@@ -5,6 +5,9 @@ export default function Page({ info, table }) {
     <div>
       <div className="title">
         <h1 className="text-lg font-medium text-text">Main</h1>
+        <p>Total: {info.total}</p>
+        <p>Acquired: {info.acquired}</p>
+        <p>Remaining: {info.remaining}</p>
       </div>
       <nav>
         <ul className="flex flex-wrap mt-5">
