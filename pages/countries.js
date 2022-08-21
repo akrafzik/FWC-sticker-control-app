@@ -5,7 +5,9 @@ import Card from "../components/card";
 export default function Page({ countries }) {
   return (
     <div>
-      <h1 className="text-lg font-medium text-text">Countries</h1>
+      <div className="title">
+        <h1 className="text-lg font-medium text-text title">Countries</h1>
+      </div>
       <nav>
         <ul className="flex flex-wrap mt-5">
           {countries.map((country) => {
@@ -13,7 +15,7 @@ export default function Page({ countries }) {
               <li className="mr-2 mt-2">
                 <Link href={getLink(country.title)}>
                   <div className="container">
-                    <Card data={{...country, type: 'country'}}/>
+                    <Card data={{ ...country, type: "country" }} />
                   </div>
                 </Link>
               </li>
@@ -109,7 +111,7 @@ export async function getServerSideProps(context) {
           identifier: "GER",
           completed: false,
           remaining: 10,
-        }
+        },
       ],
     }, // will be passed to the page component as props
   };
