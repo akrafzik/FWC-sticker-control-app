@@ -2,11 +2,11 @@ import classNames from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState, useMemo } from "react";
-import { FaFlag, FaHome, FaSignOutAlt, FaArrowLeft } from "react-icons/fa";
+import { FaFlag, FaSignOutAlt, FaArrowLeft, FaTable } from "react-icons/fa";
 import Image from 'next/image'
 
 const menuItems = [
-  { id: 1, label: "Main", icon: FaHome, link: "/main" },
+  { id: 1, label: "Main", icon: FaTable, link: "/main" },
   { id: 2, label: "Countries", icon: FaFlag, link: "/countries" },
 ];
 
