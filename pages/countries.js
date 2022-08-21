@@ -11,7 +11,7 @@ export default function Page({ countries }) {
           {countries.map((country) => {
             return (
               <li className="mr-2 mt-2">
-                <Link href={getLink(country.name)}>
+                <Link href={getLink(country.title)}>
                   <div className="container">
                     <Card data={{...country, type: 'country'}}/>
                   </div>

@@ -7,17 +7,17 @@ const Card = ({ data }) => {
     <div className={styles.card}>
       {/* <img src={user.avatar} alt="Avatar" style={{ width: "100%" }} /> */}
       <div className={getCardClass(data.completed)}>
-        <h4>
+        <h4 className="m-2">
           <b>
             {data.title}
           </b>
         </h4>
-        <h4>
+        <h4 className="m-2">
           <b>
             {data.identifier}
           </b>
         </h4>
-        {data.type == 'country' && <p>{data.completed? 'Completed' : `Remaining: ${data.remaining}`}</p>
+        {data.type == 'country' && <p className="m-2">{data.completed? 'Completed' : `Remaining: ${data.remaining}`}</p>
         }
       </div>
     </div>
