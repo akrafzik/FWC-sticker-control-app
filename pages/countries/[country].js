@@ -1,5 +1,6 @@
 import Layout from "../../components/layout";
 import Card from "../../components/card";
+import ConfirmDialog from "../../components/dialog";
 import Link from "next/link";
 function Page({ country, stickers }) {
   return (
@@ -9,9 +10,9 @@ function Page({ country, stickers }) {
           <Link href="/countries">Countries</Link>&nbsp;/&nbsp;
           {String(country).toUpperCase()}
         </h1>
-        <div>
-          <button className='mr-2'>Apply</button>
-          <button className='mr-2'>Cancel</button>
+        <div className="flex">
+          <ConfirmDialog data={{type: "apply"}}/>
+          <ConfirmDialog data={{type: "cancel"}}/>
         </div>
       </div>
       <nav>
