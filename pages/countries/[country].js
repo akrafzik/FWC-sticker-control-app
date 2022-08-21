@@ -1,12 +1,14 @@
 import Layout from "../../components/layout";
 import Card from "../../components/card";
+import Link from "next/link";
 function Page({ country, stickers }) {
   return (
     <div>
       <div className="title">
-      <h1 className="text-lg font-medium text-text">
-        {String(country).toUpperCase()}
-      </h1>
+        <h1 className="text-lg font-medium text-text">
+          <Link href="/countries">Countries</Link>&nbsp;/&nbsp;
+          {String(country).toUpperCase()}
+        </h1>
       </div>
       <nav>
         <ul className="flex flex-wrap mt-5">
