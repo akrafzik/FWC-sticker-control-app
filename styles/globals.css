@@ -31,3 +31,13 @@ div.title {
   margin-bottom: 1em;
   align-items: center;
 }
+
+table.main {
+  border: 1px solid;
+  width: 97%;
+}
+
+td {
+  border: 1px solid;
+  text-align: center;
+}

@@ -1,6 +1,8 @@
 import Layout from "../components/layout";
+import classNames from "classnames";
 
 export default function Page({ info, table }) {
+  const countries = Object.keys(table);
   return (
     <div>
       <div className="title">
@@ -10,19 +12,23 @@ export default function Page({ info, table }) {
         <p>Remaining: {info.remaining}</p>
       </div>
       <nav>
-        <ul className="flex flex-wrap mt-5">
-          {/* {countries.map((country) => {
+        <table className="main m-5">
+          {countries.map((country) => {
             return (
-              <li className="mr-2 mt-2">
-                <Link href={getLink(country.title)}>
-                  <div className="container">
-                    <Card data={{ ...country, type: "country" }} />
-                  </div>
-                </Link>
-              </li>
+              <tr>
+                <td className="p-2">{country}</td>
+                {
+                  Object.keys(table[country]).map((sticker) => {
+                    const tdClass = getDataClass(table[country][sticker]);
+                    return (
+                      <td className={tdClass}>{sticker}</td>
+                    )
+                  })
+                }
+              </tr>
             );
-          })} */}
-        </ul>
+          })}
+        </table>
       </nav>
     </div>
   );
@@ -30,6 +36,15 @@ export default function Page({ info, table }) {
 
 Page.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
+};
+
+const getDataClass = (completed) => {
+  return classNames(
+    "pr-2 main",
+    {
+      ["bg-black"]: completed,
+    }
+  );
 };
 
 export async function getServerSideProps(context) {
@@ -53,9 +68,6 @@ export async function getServerSideProps(context) {
           "03": true,
           "04": false,
           "05": true,
-          "06": false,
-          "07": true,
-          "08": false,
         },
         Qatar: {
           "01": true,
@@ -66,6 +78,8 @@ export async function getServerSideProps(context) {
           "06": false,
           "07": true,
           "08": false,
+          "09": true,
+          "10": false,
         },
       },
     }, // will be passed to the page component as props
