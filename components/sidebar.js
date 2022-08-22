@@ -38,9 +38,9 @@ const Sidebar = () => {
 
   const getNavItemClasses = (index) => {
     return classNames(
-      "flex items-center cursor-pointer hover:bg-light-lighter rounded w-full overflow-hidden whitespace-nowrap",
+      "flex items-center cursor-pointer hover:bg-light-lighter rounded w-full overflow-hidden whitespace-nowrap mt-2",
       {
-        ["bg-light-lighter"]: activeMenu?.id === index+1
+        ["bg-dark-gray outline"]: activeMenu?.id === index+1
       }
     );
   };
@@ -69,7 +69,7 @@ const Sidebar = () => {
                 hidden: toggleCollapse,
               })}
             >
-              FWC 2022 Sticker 
+              2022 Sticker 
             </span>
           </div>
           {isCollapsible && (
