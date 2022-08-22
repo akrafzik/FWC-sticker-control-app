@@ -14,11 +14,13 @@ export default function Layout({ children }) {
         <meta name="FWC Sticker Controller" content="Created by Alec Krafzik" />
         <link rel="icon" src="/public/favicon.ico" />
       </Head>
-      <div className="h-screen flex flex-row justify-start">
+      <div className="h-screen w-screen flex flex-row justify-start">
         <Sidebar />
-        <div className="bg-light-grey flex-1 p-4">{children}</div>
+        <div className="h-screen w-screen flex flex-col justify-start">
+          <div className="bg-light-grey flex-1 p-4">{children}</div>
+          <Footer />
+        </div>
       </div>
-        <Footer />
     </>
   );
 }
