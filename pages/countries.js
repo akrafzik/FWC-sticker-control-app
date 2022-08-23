@@ -13,7 +13,7 @@ export default function Page({ countries }) {
           {countries.map((country) => {
             return (
               <li className="mr-2 mt-2">
-                <Link href={getLink(country.title)}>
+                <Link href={getLink("63017a1417a4531c0ee95aa5")}>
                   <div className="container">
                     <Card data={{ ...country, type: "country" }} />
                   </div>
@@ -117,4 +117,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-const getLink = (name) => `/countries/${String(name).toLowerCase()}`;
+const getLink = (id) => `/countries/${id}`;

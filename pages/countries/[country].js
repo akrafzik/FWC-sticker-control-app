@@ -2,19 +2,31 @@ import Layout from "../../components/layout";
 import Card from "../../components/card";
 import ConfirmDialog from "../../components/dialog";
 import Link from "next/link";
-function Page({ country, stickers }) {
+import { getMongoDb } from "../../lib/mongodb";
+import * as albumRepository from "../../lib/repositories/albums";
+function Page({ country, stickers, totals, completed }) {
   return (
     <div>
       <div className="title">
-        <h1 className="text-lg font-medium text-text">
-          <Link href="/countries">Countries</Link>&nbsp;/&nbsp;
-          {String(country).toUpperCase()}
-        </h1>
+        <div className="flex gap-6 items-center">
+          <h1 className="text-lg font-medium text-text">
+            <Link href="/countries">Countries</Link>&nbsp;/&nbsp;
+            {String(country).toUpperCase()}
+          </h1>
+          <p>Total: {totals.total}</p>
+          <p>Acquired: {totals.acquired}</p>
+          <p>Remaining: {totals.remaining}</p>
+        </div>
         <div className="flex">
-          <ConfirmDialog data={{type: "apply"}}/>
-          <ConfirmDialog data={{type: "cancel"}}/>
+          <ConfirmDialog data={{ type: "apply" }} />
+          <ConfirmDialog data={{ type: "cancel" }} />
         </div>
       </div>
+      {completed && (
+        <div className="title bg-green-900 text-white font-black justify-center">
+          <h1>TEAM COMPLETED</h1>
+        </div>
+      )}
       <nav>
         <ul className="flex flex-wrap mt-5">
           {stickers.map((sticker) => {
@@ -37,72 +49,14 @@ Page.getLayout = function getLayout(page) {
 };
 
 export async function getServerSideProps({ params }) {
+  const db = await getMongoDb();
+  const countryDetail = await albumRepository.getCountry(
+    db,
+    params.country,
+    "6303f2d24db9291420f087d7" // mudar para cookie
+  );
   return {
-    props: {
-      country: params.country,
-      stickers: [
-        { title: "01", identifier: "BRA", completed: true },
-        {
-          title: "02",
-          identifier: "BRA",
-          completed: false,
-        },
-        { title: "03", identifier: "BRA", completed: true },
-        {
-          title: "04",
-          identifier: "BRA",
-          completed: false,
-        },
-        { title: "05", identifier: "BRA", completed: true },
-        {
-          title: "06",
-          identifier: "BRA",
-          completed: false,
-        },
-        { title: "07", identifier: "BRA", completed: true },
-        {
-          title: "08",
-          identifier: "BRA",
-          completed: false,
-        },
-        { title: "09", identifier: "BRA", completed: true },
-        {
-          title: "10",
-          identifier: "BRA",
-          completed: false,
-        },
-        { title: "11", identifier: "BRA", completed: true },
-        {
-          title: "12",
-          identifier: "BRA",
-          completed: false,
-        },
-        { title: "13", identifier: "BRA", completed: true },
-        {
-          title: "14",
-          identifier: "BRA",
-          completed: false,
-        },
-        { title: "15", identifier: "BRA", completed: true },
-        {
-          title: "16",
-          identifier: "BRA",
-          completed: false,
-        },
-        { title: "17", identifier: "BRA", completed: true },
-        {
-          title: "18",
-          identifier: "BRA",
-          completed: false,
-        },
-        { title: "19", identifier: "BRA", completed: true },
-        {
-          title: "20",
-          identifier: "BRA",
-          completed: false,
-        },
-      ],
-    },
+    props: countryDetail,
   };
 }
 
