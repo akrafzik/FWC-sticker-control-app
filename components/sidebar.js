@@ -22,7 +22,7 @@ const Sidebar = () => {
   );
 
   const wrapperClasses = classNames(
-    "h-screen px-4 pt-8 pb-4 bg-light flex justify-between flex-col",
+    "h-screen px-4 pt-8 pb-4 bg-dark-gray flex justify-between flex-col border-r-2 border-black",
     {
       ["w-80"]: !toggleCollapse,
       ["w-20"]: toggleCollapse,
@@ -30,7 +30,7 @@ const Sidebar = () => {
   );
 
   const collapseIconClasses = classNames(
-    "p-4 rounded bg-light-lighter absolute right-0",
+    "p-4 rounded bg-dark-gray absolute right-0 outline hover:bg-light-lighter",
     {
       "rotate-180": toggleCollapse,
     }
@@ -40,7 +40,7 @@ const Sidebar = () => {
     return classNames(
       "flex items-center cursor-pointer hover:bg-light-lighter rounded w-full overflow-hidden whitespace-nowrap mt-2",
       {
-        ["bg-dark-gray outline"]: activeMenu?.id === index+1
+        ["bg-light-lighter outline"]: activeMenu?.id === index+1
       }
     );
   };
@@ -95,7 +95,7 @@ const Sidebar = () => {
                     {!toggleCollapse && (
                       <span
                         className={classNames(
-                          "text-md font-medium text-text-light"
+                          "text-md font-medium"
                         )}
                       >
                         {menu.label}
@@ -114,7 +114,7 @@ const Sidebar = () => {
         <FaSignOutAlt />
         </div>
         {!toggleCollapse && (
-          <span className={classNames("text-md font-medium text-text-light")}>
+          <span className={classNames("text-md font-medium")}>
             Logout 
           </span>
         )}

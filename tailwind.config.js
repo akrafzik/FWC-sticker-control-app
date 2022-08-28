@@ -2,14 +2,14 @@ const defaultTheme = require("tailwindcss/defaultConfig");
 
 module.exports = {
   mode: "jit",
-  // content: [
-  //   "./pages/*.{js,ts,jsx,tsx}",
-  //   "./pages/**/*.{js,ts,jsx,tsx}",
-  //   "./components/*.{js,ts,jsx,tsx}",
-  // ],
-  purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./pages/*.{js,ts,jsx,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/*.{js,ts,jsx,tsx}",
+  ],
+  // purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   important: true,
-  darkMode: false, // or 'media' or 'class'
+  darkMode: 'media', // or 'media' or 'class'
   theme: {
     extend: {
       colors: {
