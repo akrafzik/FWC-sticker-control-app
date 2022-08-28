@@ -22,7 +22,7 @@ const Sidebar = () => {
   );
 
   const wrapperClasses = classNames(
-    "px-4 pt-8 pb-4 bg-dark-gray flex justify-between flex-col border-r-2 border-black",
+    "px-4 pt-8 pb-4 bg-dark-gray flex justify-between flex-col border-r-2 border-dark-red",
     {
       ["w-80"]: !toggleCollapse,
       ["w-20"]: toggleCollapse,
@@ -30,7 +30,7 @@ const Sidebar = () => {
   );
 
   const collapseIconClasses = classNames(
-    "p-4 rounded bg-dark-gray absolute right-0 outline hover:bg-light-lighter",
+    "p-4 rounded bg-dark-gray absolute right-0 outline outline-offset-2 outline-dark-red hover:bg-light-lighter",
     {
       "rotate-180": toggleCollapse,
     }
@@ -40,7 +40,7 @@ const Sidebar = () => {
     return classNames(
       "flex items-center cursor-pointer hover:bg-light-lighter rounded w-full overflow-hidden whitespace-nowrap mt-2",
       {
-        ["bg-light-lighter outline"]: activeMenu?.id === index+1
+        ["bg-light-lighter outline outline-offset-2 outline-dark-red"]: activeMenu?.id === index+1
       }
     );
   };
