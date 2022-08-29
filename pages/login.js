@@ -103,6 +103,7 @@ export async function getServerSideProps(context) {
         destination: "/main",
       },
     };
+  return {};
 }
 
 function userLogged(ctx) {
