@@ -24,18 +24,22 @@ export default function Page({ info, table, userData }) {
         <p>Remaining: {info.remaining}</p>
       </div>
       <nav>
-        <table className="main m-5">
-          {countries.map((country) => {
-            return (
-              <tr>
-                <td className="p-2">{country}</td>
-                {Object.keys(table[country]).map((sticker) => {
-                  const tdClass = getDataClass(table[country][sticker]);
-                  return <td className={tdClass}>{sticker}</td>;
-                })}
-              </tr>
-            );
-          })}
+        <table className="border border-solid border-black m-5 text-xs">
+          <tbody>
+            {countries.map((country) => {
+              return (
+                <tr>
+                  <td className="border border-solid border-black text-center">
+                    {country}
+                  </td>
+                  {Object.keys(table[country]).map((sticker) => {
+                    const tdClass = getDataClass(table[country][sticker]);
+                    return <td className={tdClass}>{sticker}</td>;
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </nav>
     </div>
@@ -47,7 +51,7 @@ Page.getLayout = function getLayout(page) {
 };
 
 const getDataClass = (completed) => {
-  return classNames("pr-2 main", {
+  return classNames("border border-solid border-black text-center  ", {
     ["bg-black"]: completed,
   });
 };
@@ -85,7 +89,7 @@ async function generateAlbum() {
 
 async function getAlbumData() {
   const cookies = parseCookies(null);
-  const userId = JSON.parse(cookies.userData).user
+  const userId = JSON.parse(cookies.userData).user;
   return fetch("/api/albums", {
     method: "GET",
     headers: {

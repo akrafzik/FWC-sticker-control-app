@@ -32,16 +32,6 @@ div.title {
   align-items: center;
 }
 
-table.main {
-  border: 1px solid;
-  width: 97%;
-}
-
-td {
-  border: 1px solid;
-  text-align: center;
-}
-
 div.access {
   background-image: url('../public/assets/worldcupsoftcover2.png');
   background-repeat: no-repeat;
