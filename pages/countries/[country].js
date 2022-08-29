@@ -14,7 +14,9 @@ function Page({ country, stickers, info, completed, userData, countryCode }) {
   async function cardClicked(sticker) {
     await updateSticker(
       countryCode,
-      `${sticker.identifier}${sticker.title}`,
+      sticker.title == "00"
+        ? "00"
+        : `${sticker.identifier}${sticker.title}`,
       !sticker.completed
     );
     Router.reload(window.location.pathname);
