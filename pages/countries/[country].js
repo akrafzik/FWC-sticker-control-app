@@ -7,7 +7,7 @@ import * as albumRepository from "../../lib/repositories/albums";
 import nookies from "nookies";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-function Page({ country, stickers, totals, completed, userData }) {
+function Page({ country, stickers, info, completed, userData }) {
   const router = useRouter();
   if (!userData) {
     useEffect(() => {
@@ -23,9 +23,9 @@ function Page({ country, stickers, totals, completed, userData }) {
             <Link href="/countries">Countries</Link>&nbsp;/&nbsp;
             {String(country).toUpperCase()}
           </h1>
-          <p>Total: {totals.total}</p>
-          <p>Acquired: {totals.acquired}</p>
-          <p>Remaining: {totals.remaining}</p>
+          <p>Total: {info.total}</p>
+          <p>Acquired: {info.acquired}</p>
+          <p>Remaining: {info.remaining}</p>
         </div>
         <div className="flex">
           <ConfirmDialog data={{ type: "apply" }} />
@@ -64,14 +64,26 @@ export async function getServerSideProps(context) {
     return { props: { userData } };
   }
   const db = await getMongoDb();
-  const countryDetail = await albumRepository.getCountry(
+  const countryDetails = await albumRepository.getCountry(
     db,
     context.params.country,
     userData.user
   );
+    console.log('countryDetails :>> ', countryDetails);
   return {
-    props: { userData, ...countryDetail },
+    props: { userData, ...countryDetails },
   };
+}
+
+async function getCountryData(countryId) {
+  const cookies = parseCookies(null);
+  return fetch(`/api/country/${countryId}`, {
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+      user: JSON.parse(cookies.userData).user,
+    },
+  });
 }
 
 function userLogged(ctx) {

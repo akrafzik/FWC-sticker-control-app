@@ -4,6 +4,8 @@ import Card from "../components/card";
 import nookies from "nookies";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { getMongoDb } from "../lib/mongodb";
+import * as albumRepository from "../lib/repositories/albums";
 
 export default function Page({ countries, userData }) {
   const router = useRouter();
@@ -11,7 +13,7 @@ export default function Page({ countries, userData }) {
     useEffect(() => {
       router.push("/login");
     }, []);
-    return (<></>)
+    return <></>;
   }
   return (
     <div>
@@ -23,7 +25,7 @@ export default function Page({ countries, userData }) {
           {countries.map((country) => {
             return (
               <li className="mr-2 mt-2">
-                <Link href={getLink("63017a1417a4531c0ee95aa5")}>
+                <Link href={getLink(country._id)}>
                   <div className="container">
                     <Card data={{ ...country, type: "country" }} />
                   </div>
@@ -44,89 +46,13 @@ Page.getLayout = function getLayout(page) {
 export async function getServerSideProps(context) {
   const userData = userLogged(context) || null;
   if (!userData) {
-    return { props: {countries: [], userData} };
+    return { props: { countries: [], userData } };
   }
+  const db = await getMongoDb();
+  const countries = await albumRepository.listCountries(db, userData.user);
   return {
     props: {
-      countries: [
-        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
-        {
-          title: "Germany",
-          identifier: "GER",
-          completed: false,
-          remaining: 10,
-        },
-        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
-        {
-          title: "Germany",
-          identifier: "GER",
-          completed: false,
-          remaining: 10,
-        },
-        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
-        {
-          title: "Germany",
-          identifier: "GER",
-          completed: false,
-          remaining: 10,
-        },
-        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
-        {
-          title: "Germany",
-          identifier: "GER",
-          completed: false,
-          remaining: 10,
-        },
-        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
-        {
-          title: "Germany",
-          identifier: "GER",
-          completed: false,
-          remaining: 10,
-        },
-        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
-        {
-          title: "Germany",
-          identifier: "GER",
-          completed: false,
-          remaining: 10,
-        },
-        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
-        {
-          title: "Germany",
-          identifier: "GER",
-          completed: false,
-          remaining: 10,
-        },
-        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
-        {
-          title: "Germany",
-          identifier: "GER",
-          completed: false,
-          remaining: 10,
-        },
-        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
-        {
-          title: "Germany",
-          identifier: "GER",
-          completed: false,
-          remaining: 10,
-        },
-        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
-        {
-          title: "Germany",
-          identifier: "GER",
-          completed: false,
-          remaining: 10,
-        },
-        { title: "Brazil", identifier: "BRA", completed: true, remaining: 0 },
-        {
-          title: "Germany",
-          identifier: "GER",
-          completed: false,
-          remaining: 10,
-        },
-      ],
+      countries,
       userData,
     },
   };

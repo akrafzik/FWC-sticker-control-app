@@ -1,9 +1,11 @@
 import Layout from "../components/layout";
 import classNames from "classnames";
 import nookies from "nookies";
+import { parseCookies } from "nookies";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-
+import { getMongoDb } from "../lib/mongodb";
+import * as albumRepository from "../lib/repositories/albums";
 export default function Page({ info, table, userData }) {
   const router = useRouter();
   if (!userData) {
@@ -36,6 +38,12 @@ export default function Page({ info, table, userData }) {
           })}
         </table>
       </nav>
+      <button
+        className="h-8 w-16 rounded bg-dark-red text-white font-bold outline"
+        onClick={generateAlbum}
+      >
+        Generate
+      </button>
     </div>
   );
 }
@@ -55,46 +63,41 @@ export async function getServerSideProps(context) {
   if (!userData) {
     return { props: { info: {}, table: {}, userData } };
   }
+  const db = await getMongoDb();
+  const albumData = await albumRepository.listMain(db, userData.user);
   return {
     props: {
-      info: { total: 670, acquired: 240, remaining: 430 },
-      table: {
-        Brazil: {
-          "01": true,
-          "02": false,
-          "03": true,
-          "04": false,
-          "05": true,
-          "06": false,
-          "07": true,
-          "08": false,
-        },
-        Germany: {
-          "01": true,
-          "02": false,
-          "03": true,
-          "04": false,
-          "05": true,
-        },
-        Qatar: {
-          "01": true,
-          "02": false,
-          "03": true,
-          "04": false,
-          "05": true,
-          "06": false,
-          "07": true,
-          "08": false,
-          "09": true,
-          10: false,
-        },
-      },
+      ...albumData,
       userData,
-    }, // will be passed to the page component as props
+    },
   };
 }
 
 function userLogged(ctx) {
   const cookies = nookies.get(ctx);
   return cookies.userData ? JSON.parse(cookies.userData) : null;
+}
+
+async function generateAlbum() {
+  const cookies = parseCookies(null);
+  await fetch("/api/album/generate", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({ user: JSON.parse(cookies.userData).user }),
+  });
+}
+
+async function getAlbumData() {
+  const cookies = parseCookies(null);
+  console.log("cookies :>> ", cookies);
+  // const userId = JSON.parse(cookies.userData).user
+  return fetch("/api/albums", {
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+      user: "userId",
+    },
+  });
 }
