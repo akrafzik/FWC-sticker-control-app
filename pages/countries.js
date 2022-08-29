@@ -1,8 +1,18 @@
 import Layout from "../components/layout";
 import Link from "next/link";
 import Card from "../components/card";
+import nookies from "nookies";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
-export default function Page({ countries }) {
+export default function Page({ countries, userData }) {
+  const router = useRouter();
+  if (!userData) {
+    useEffect(() => {
+      router.push("/login");
+    }, []);
+    return (<></>)
+  }
   return (
     <div>
       <div className="title">
@@ -32,6 +42,10 @@ Page.getLayout = function getLayout(page) {
 };
 
 export async function getServerSideProps(context) {
+  const userData = userLogged(context) || null;
+  if (!userData) {
+    return { props: {countries: [], userData} };
+  }
   return {
     props: {
       countries: [
@@ -113,8 +127,14 @@ export async function getServerSideProps(context) {
           remaining: 10,
         },
       ],
-    }, // will be passed to the page component as props
+      userData,
+    },
   };
 }
 
 const getLink = (id) => `/countries/${id}`;
+
+function userLogged(ctx) {
+  const cookies = nookies.get(ctx);
+  return cookies.userData ? JSON.parse(cookies.userData) : null;
+}

@@ -4,7 +4,17 @@ import ConfirmDialog from "../../components/dialog";
 import Link from "next/link";
 import { getMongoDb } from "../../lib/mongodb";
 import * as albumRepository from "../../lib/repositories/albums";
-function Page({ country, stickers, totals, completed }) {
+import nookies from "nookies";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+function Page({ country, stickers, totals, completed, userData }) {
+  const router = useRouter();
+  if (!userData) {
+    useEffect(() => {
+      router.push("/login");
+    }, []);
+    return <></>;
+  }
   return (
     <div>
       <div className="title">
@@ -48,16 +58,25 @@ Page.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps(context) {
+  const userData = userLogged(context) || null;
+  if (!userData) {
+    return { props: { userData } };
+  }
   const db = await getMongoDb();
   const countryDetail = await albumRepository.getCountry(
     db,
-    params.country,
-    "6303f2d24db9291420f087d7" // mudar para cookie
+    context.params.country,
+    userData.user
   );
   return {
-    props: countryDetail,
+    props: { userData, ...countryDetail },
   };
+}
+
+function userLogged(ctx) {
+  const cookies = nookies.get(ctx);
+  return cookies.userData ? JSON.parse(cookies.userData) : null;
 }
 
 export default Page;

@@ -3,7 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState, useMemo } from "react";
 import { FaFlag, FaSignOutAlt, FaArrowLeft, FaTable } from "react-icons/fa";
-import Image from 'next/image'
+import Image from "next/image";
+import { destroyCookie } from "nookies";
 
 const menuItems = [
   { id: 1, label: "Main", icon: FaTable, link: "/main" },
@@ -40,7 +41,8 @@ const Sidebar = () => {
     return classNames(
       "flex items-center cursor-pointer hover:bg-light-lighter rounded w-full overflow-hidden whitespace-nowrap mt-2",
       {
-        ["bg-light-lighter outline outline-offset-2 outline-dark-red"]: activeMenu?.id === index+1
+        ["bg-light-lighter outline outline-offset-2 outline-dark-red"]:
+          activeMenu?.id === index + 1,
       }
     );
   };
@@ -53,6 +55,11 @@ const Sidebar = () => {
     setToggleCollapse(!toggleCollapse);
   };
 
+  const logout = () => {
+    destroyCookie(null, "userData");
+    router.push("/login");
+  };
+
   return (
     <div
       className={wrapperClasses}
@@ -63,13 +70,13 @@ const Sidebar = () => {
       <div className="flex flex-col">
         <div className="flex items-center justify-between relative">
           <div className="flex items-center pl-1 gap-4">
-          <Image src="/favicon.ico" alt="logo" width="64" height="64" />
+            <Image src="/favicon.ico" alt="logo" width="64" height="64" />
             <span
               className={classNames("mt-2 text-lg font-medium text-text", {
                 hidden: toggleCollapse,
               })}
             >
-              2022 Sticker 
+              2022 Sticker
             </span>
           </div>
           {isCollapsible && (
@@ -77,7 +84,7 @@ const Sidebar = () => {
               className={collapseIconClasses}
               onClick={handleSidebarToggle}
             >
-            <FaArrowLeft />
+              <FaArrowLeft />
             </button>
           )}
         </div>
@@ -93,11 +100,7 @@ const Sidebar = () => {
                       <Icon />
                     </div>
                     {!toggleCollapse && (
-                      <span
-                        className={classNames(
-                          "text-md font-medium"
-                        )}
-                      >
+                      <span className={classNames("text-md font-medium")}>
                         {menu.label}
                       </span>
                     )}
@@ -109,14 +112,12 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <div className={`${getNavItemClasses({})} px-4 py-5`}>
+      <div className={`${getNavItemClasses({})} px-4 py-5`} onClick={logout}>
         <div style={{ width: "2.5rem" }}>
-        <FaSignOutAlt />
+          <FaSignOutAlt />
         </div>
         {!toggleCollapse && (
-          <span className={classNames("text-md font-medium")}>
-            Logout 
-          </span>
+          <span className={classNames("text-md font-medium")}>Logout</span>
         )}
       </div>
     </div>

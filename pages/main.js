@@ -1,7 +1,17 @@
 import Layout from "../components/layout";
 import classNames from "classnames";
+import nookies from "nookies";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
-export default function Page({ info, table }) {
+export default function Page({ info, table, userData }) {
+  const router = useRouter();
+  if (!userData) {
+    useEffect(() => {
+      router.push("/login");
+    }, []);
+    return <></>;
+  }
   const countries = Object.keys(table);
   return (
     <div>
@@ -17,14 +27,10 @@ export default function Page({ info, table }) {
             return (
               <tr>
                 <td className="p-2">{country}</td>
-                {
-                  Object.keys(table[country]).map((sticker) => {
-                    const tdClass = getDataClass(table[country][sticker]);
-                    return (
-                      <td className={tdClass}>{sticker}</td>
-                    )
-                  })
-                }
+                {Object.keys(table[country]).map((sticker) => {
+                  const tdClass = getDataClass(table[country][sticker]);
+                  return <td className={tdClass}>{sticker}</td>;
+                })}
               </tr>
             );
           })}
@@ -39,15 +45,16 @@ Page.getLayout = function getLayout(page) {
 };
 
 const getDataClass = (completed) => {
-  return classNames(
-    "pr-2 main",
-    {
-      ["bg-black"]: completed,
-    }
-  );
+  return classNames("pr-2 main", {
+    ["bg-black"]: completed,
+  });
 };
 
 export async function getServerSideProps(context) {
+  const userData = userLogged(context) || null;
+  if (!userData) {
+    return { props: { info: {}, table: {}, userData } };
+  }
   return {
     props: {
       info: { total: 670, acquired: 240, remaining: 430 },
@@ -79,9 +86,15 @@ export async function getServerSideProps(context) {
           "07": true,
           "08": false,
           "09": true,
-          "10": false,
+          10: false,
         },
       },
+      userData,
     }, // will be passed to the page component as props
   };
+}
+
+function userLogged(ctx) {
+  const cookies = nookies.get(ctx);
+  return cookies.userData ? JSON.parse(cookies.userData) : null;
 }
