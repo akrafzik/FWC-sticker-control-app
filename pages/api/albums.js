@@ -1,5 +1,5 @@
-import { getMongoDb } from "../../../lib/mongodb";
-import * as albumRepository from "../../../lib/repositories/albums";
+import { getMongoDb } from "./../../lib/mongodb";
+import * as albumRepository from "./../../lib/repositories/albums";
 
 export default async function userHandler(req, res) {
   const db = await getMongoDb();
