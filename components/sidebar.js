@@ -2,13 +2,20 @@ import classNames from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState, useMemo } from "react";
-import { FaFlag, FaSignOutAlt, FaArrowLeft, FaTable } from "react-icons/fa";
+import {
+  FaFlag,
+  FaSignOutAlt,
+  FaArrowLeft,
+  FaTable,
+  FaMedal,
+} from "react-icons/fa";
 import Image from "next/image";
 import { destroyCookie } from "nookies";
 
 const menuItems = [
   { id: 1, label: "Main", icon: FaTable, link: "/main" },
   { id: 2, label: "Countries", icon: FaFlag, link: "/countries" },
+  { id: 3, label: "Ranking", icon: FaMedal, link: "/ranking" },
 ];
 
 const Sidebar = () => {
@@ -111,7 +118,6 @@ const Sidebar = () => {
           })}
         </div>
       </div>
-
       <div className={`${getNavItemClasses({})} px-4 py-5`} onClick={logout}>
         <div style={{ width: "2.5rem" }}>
           <FaSignOutAlt />
