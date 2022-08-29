@@ -37,7 +37,7 @@ export default function Home() {
             <div className="h-3/6 w-6/12 0 rounded-md shadow-2xl bg-white opacity-90 outline outline-dark-red flex flex-col justify-around">
               <div className="flex flex-row justify-center">
                 <h1 className="font-bold">
-                  Welcome to the FIFA Sticker Album Controller!
+                  Welcome to the FWC Sticker Control App!
                 </h1>
               </div>
               <form
