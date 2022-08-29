@@ -7,22 +7,22 @@ import nookies from "nookies";
 
 export default function Home() {
   const router = useRouter();
-  function logIn() {
+  function logIn(userData) {
     setCookie(
       null,
       "userData",
-      JSON.stringify({ user: "6303f2d24db9291420f087d7" })
+      JSON.stringify({ user: userData._id, name: userData.name })
     );
     router.push("/main");
   }
 
-  function handleSubmit(data) {
+  async function handleSubmit(data) {
     data.preventDefault();
-    if (
-      data.target.username.value == "akrafzik" &&
-      data.target.password.value == "demo"
-    )
-      logIn();
+    const userData = await authUser(
+      data.target.username.value,
+      data.target.password.value
+    );
+    if (userData._id) logIn(userData);
   }
   return (
     <>
@@ -109,4 +109,16 @@ export async function getServerSideProps(context) {
 function userLogged(ctx) {
   const cookies = nookies.get(ctx);
   return cookies.userData ? JSON.parse(cookies.userData) : null;
+}
+
+async function authUser(username, password) {
+  const userData = await fetch("/api/users", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({ username, password }),
+  });
+  if (userData == {}) return null;
+  return userData.json();
 }
