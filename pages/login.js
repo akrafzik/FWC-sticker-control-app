@@ -3,6 +3,7 @@ import Head from "next/head";
 import { setCookie } from "nookies";
 import { useRouter } from "next/router";
 import { FaUser, FaKey } from "react-icons/fa";
+import nookies from "nookies";
 
 export default function Home() {
   const router = useRouter();
@@ -91,4 +92,20 @@ export default function Home() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const userData = userLogged(context);
+  if (userData)
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/main",
+      },
+    };
+}
+
+function userLogged(ctx) {
+  const cookies = nookies.get(ctx);
+  return cookies.userData ? JSON.parse(cookies.userData) : null;
 }
