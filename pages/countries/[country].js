@@ -7,7 +7,18 @@ import * as albumRepository from "../../lib/repositories/albums";
 import nookies from "nookies";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-function Page({ country, stickers, info, completed, userData }) {
+import Router from "next/router";
+import { parseCookies } from "nookies";
+
+function Page({ country, stickers, info, completed, userData, countryCode }) {
+  async function cardClicked(sticker) {
+    await updateSticker(
+      countryCode,
+      `${sticker.identifier}${sticker.title}`,
+      !sticker.completed
+    );
+    Router.reload(window.location.pathname);
+  }
   const router = useRouter();
   if (!userData) {
     useEffect(() => {
@@ -27,10 +38,12 @@ function Page({ country, stickers, info, completed, userData }) {
           <p>Acquired: {info.acquired}</p>
           <p>Remaining: {info.remaining}</p>
         </div>
-        <div className="flex">
-          <ConfirmDialog data={{ type: "apply" }} />
-          <ConfirmDialog data={{ type: "cancel" }} />
-        </div>
+        {false && (
+          <div className="flex">
+            <ConfirmDialog data={{ type: "apply" }} />
+            <ConfirmDialog data={{ type: "cancel" }} />
+          </div>
+        )}
       </div>
       {completed && (
         <div className="title bg-green-900 text-white font-black justify-center">
@@ -42,8 +55,8 @@ function Page({ country, stickers, info, completed, userData }) {
           {stickers.map((sticker) => {
             return (
               <li className="mr-2 mt-2">
-                <div className="container">
-                  <Card data={sticker} />
+                <div className="container" onClick={() => cardClicked(sticker)}>
+                  <Card data={sticker} clickFunc />
                 </div>
               </li>
             );
@@ -69,9 +82,12 @@ export async function getServerSideProps(context) {
     context.params.country,
     userData.user
   );
-    console.log('countryDetails :>> ', countryDetails);
+  countryDetails.stickers = countryDetails.stickers.map((sticker) => {
+    sticker.checked = false;
+    return sticker;
+  });
   return {
-    props: { userData, ...countryDetails },
+    props: { userData, ...countryDetails, countryCode: context.params.country },
   };
 }
 
@@ -86,9 +102,23 @@ async function getCountryData(countryId) {
   });
 }
 
+async function updateSticker(countryId, sticker, selected) {
+  const cookies = parseCookies(null);
+  return fetch(`/api/country/${countryId}`, {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      user: JSON.parse(cookies.userData).user,
+      sticker,
+      selected,
+    }),
+  });
+}
+
 function userLogged(ctx) {
   const cookies = nookies.get(ctx);
   return cookies.userData ? JSON.parse(cookies.userData) : null;
 }
-
 export default Page;
