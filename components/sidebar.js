@@ -39,9 +39,9 @@ const Sidebar = () => {
 
   const getNavItemClasses = (index) => {
     return classNames(
-      "flex items-center cursor-pointer hover:bg-light-lighter rounded w-full overflow-hidden whitespace-nowrap mt-2",
+      "flex items-center cursor-pointer hover:bg-light-lighter hover:text-black rounded w-full overflow-hidden whitespace-nowrap mt-2",
       {
-        ["bg-light-lighter outline outline-offset-2 outline-dark-red"]:
+        ["bg-dark-red text-white outline outline-offset-2 outline-dark-red"]:
           activeMenu?.id === index + 1,
       }
     );

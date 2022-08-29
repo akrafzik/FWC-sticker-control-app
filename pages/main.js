@@ -38,12 +38,6 @@ export default function Page({ info, table, userData }) {
           })}
         </table>
       </nav>
-      <button
-        className="h-8 w-16 rounded bg-dark-red text-white font-bold outline"
-        onClick={generateAlbum}
-      >
-        Generate
-      </button>
     </div>
   );
 }
@@ -91,13 +85,12 @@ async function generateAlbum() {
 
 async function getAlbumData() {
   const cookies = parseCookies(null);
-  console.log("cookies :>> ", cookies);
-  // const userId = JSON.parse(cookies.userData).user
+  const userId = JSON.parse(cookies.userData).user
   return fetch("/api/albums", {
     method: "GET",
     headers: {
       "content-type": "application/json",
-      user: "userId",
+      user: userId,
     },
   });
 }
