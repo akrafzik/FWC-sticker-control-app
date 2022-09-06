@@ -16,3 +16,7 @@ password: demo
 - [] Better tables style
 - [] Country flags as emoji from each country
 - [] Add logged username to side menu
+- [] Remove _id from users ranking query
+- [] Remove username from cookies
+- [] Add signed cookies
+
