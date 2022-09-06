@@ -12,11 +12,11 @@ password: demo
 
 ## To-do list
 
-- [] Spinner while waiting requests
-- [] Better tables style
-- [] Country flags as emoji from each country
-- [] Add logged username to side menu
-- [] Remove _id from users ranking query
-- [] Remove username from cookies
-- [] Add signed cookies
+- [ ] Spinner while waiting requests
+- [ ] Better tables style
+- [ ] Country flags as emoji from each country
+- [ ] Add logged username to side menu
+- [ ] Remove _id from users ranking query
+- [ ] Remove username from cookies
+- [ ] Add signed cookies
 
